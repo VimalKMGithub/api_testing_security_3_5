@@ -4,6 +4,7 @@ package org.vimal.api;
 import io.restassured.response.Response;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import static org.vimal.api.ApiCalls.executeRequest;
@@ -36,6 +37,19 @@ public final class AuthenticationCalls {
                         POST,
                         AUTH + "/logout",
                         Map.of(AUTHORIZATION, BEARER + accessToken)
+                )
+        );
+    }
+
+    public static Response logoutFromDevices(String accessToken,
+                                             Set<String> deviceIds) throws ExecutionException, InterruptedException {
+        return waitForResponse(() -> executeRequest(
+                        POST,
+                        AUTH + "/logout/fromDevices",
+                        Map.of(AUTHORIZATION, BEARER + accessToken),
+                        null,
+                        null,
+                        deviceIds
                 )
         );
     }

@@ -624,4 +624,15 @@ public class UserServiceTests extends BaseTest {
                     .body("invalid_inputs", not(empty()));
         }
     }
+
+    @Test
+    public void test_Get_Active_Devices_Success() throws ExecutionException, InterruptedException {
+        UserDto user = createTestUser();
+        getActiveDevices(getAccessToken(
+                user.getUsername(),
+                user.getPassword()
+        )).then()
+                .statusCode(200)
+                .body("current_device_id", notNullValue());
+    }
 }

@@ -172,4 +172,13 @@ public final class UserCalls {
                 )
         );
     }
+
+    public static Response getActiveDevices(String accessToken) throws ExecutionException, InterruptedException {
+        return waitForResponse(() -> executeRequest(
+                        GET,
+                        USER + "/active/devices",
+                        Map.of(AUTHORIZATION, BEARER + accessToken)
+                )
+        );
+    }
 }

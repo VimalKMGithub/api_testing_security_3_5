@@ -10,6 +10,7 @@ import org.vimal.dtos.UserDto;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import static org.hamcrest.Matchers.*;
@@ -142,6 +143,19 @@ public class AuthenticationServiceTests extends BaseTest {
                 .statusCode(401)
                 .body("error", containsStringIgnoringCase("Unauthorized"))
                 .body("message", containsStringIgnoringCase("Invalid token"));
+    }
+
+    @Test
+    public void test_Logout_From_Devices_Success() throws ExecutionException, InterruptedException {
+        UserDto user = createTestUser();
+        logoutFromDevices(getAccessToken(
+                        user.getUsername(),
+                        user.getPassword()
+                ),
+                Set.of("SomeDeviceId")
+        ).then()
+                .statusCode(200)
+                .body("message", containsStringIgnoringCase("Logout from devices successful"));
     }
 
     @Test
